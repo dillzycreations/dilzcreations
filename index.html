@@ -244,7 +244,7 @@ async function initializeApp() {
         const streamData = data.iframes.find(item => item.id === streamId);
 
         if (streamData) {
-            document.title = `${streamData.name}`;
+            // document.title = `${streamData.name}`; // 🔒 Title stays original (𝗗𝗜𝗟𝗟𝗭𝗬 𝗟𝗜𝗡𝗞𝗦 ™)
             renderIframeUI(streamData);
             setTimeout(() => {
                 document.getElementById('telegramPopup').style.display = 'block';
