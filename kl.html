@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DILLZY LINKS ™</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --border:#2d2d2d;
+  --blue:#00b4d8;
+  --text:#f1f5f9;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Poppins,system-ui;
+}
+
+/* HEADER */
+.block-header{
+  width:100%;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.block-header h1{
+  font-size:18px;
+  font-weight:600;
+}
+
+.live-badge{
+  background:var(--blue);
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:20px;
+}
+
+/* PLAYER */
+.player-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+}
+
+.player-wrap iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+/* VIEW COUNTER */
+.view-counter{
+  position:absolute;
+  top:10px;
+  right:12px;
+  background:rgba(0,0,0,.6);
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:600;
+}
+
+/* EMPTY SPACE */
+.empty-section{
+  width:100%;
+  min-height:40vh;
+}
+</style>
+</head>
+
+<body>
+
+<div id="stream-content"></div>
+
+<script>
+async function initializeApp() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/Cricketstan/Allrounder-/refs/heads/main/id.json');
+    const data = await response.json();
+
+    const id = new URLSearchParams(location.search).get("id");
+    const stream = data.iframes.find(i => i.id === id);
+
+    if(stream){
+      renderIframeUI(stream);
+      startViewCounter(stream);
+    }
+  } catch(e){
+    console.error(e);
+  }
+}
+
+function renderIframeUI(data){
+  document.getElementById("stream-content").innerHTML = `
+    <!-- HEADER -->
+    <div class="block-header">
+      <h1>${data.name}</h1>
+      <div class="live-badge">LIVE</div>
+    </div>
+
+    <!-- PLAYER -->
+    <div class="player-wrap">
+      <iframe src="${data.iframeSrc}"
+        allow="autoplay; encrypted-media"
+        allowfullscreen></iframe>
+
+      <div class="view-counter">
+        <span id="viewCount">0 Views</span>
+      </div>
+    </div>
+
+    <!-- EMPTY -->
+    <div class="empty-section"></div>
+  `;
+}
+
+/* SAME VIEW LOGIC */
+function formatViews(n){
+  if(n>=1e6) return (n/1e6).toFixed(1)+"M";
+  if(n>=1e3) return (n/1e3).toFixed(1)+"K";
+  return n;
+}
+
+async function startViewCounter(data){
+  try{ await fetch(data.hit+"&_="+Date.now()); }catch(e){}
+
+  async function update(){
+    try{
+      const r = await fetch(data.get+"&_="+Date.now());
+      const j = await r.json();
+      document.getElementById("viewCount").innerText =
+        formatViews(Number(j.total||0))+" Views";
+    }catch{
+      document.getElementById("viewCount").innerText="0 Views";
+    }
+  }
+
+  update();
+  setInterval(update,2000);
+}
+
+document.addEventListener("DOMContentLoaded",initializeApp);
+</script>
+
+</body>
+</html>
