@@ -28,48 +28,38 @@ html,body{
   overflow:hidden;
 }
 
-/* PREMIUM HEADER */
+/* STREAM HEADER */
 .block-header{
   width:100%;
-  background:linear-gradient(180deg,#161616,#101010);
+  background:var(--card);
   border-bottom:1px solid var(--border);
-  padding:16px 20px;
+  padding:14px 18px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.4);
 }
 
 .block-header h1{
-  font-size:20px;
+  font-size:18px;
   font-weight:900;
-  color:#fff;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  text-shadow:0 2px 4px rgba(0,0,0,0.5);
-  letter-spacing:0.5px;
+  color:var(--kick-green);
 }
 
 /* PULSE EFFECT FOR LIVE BADGE */
 @keyframes pulse{
   0%{box-shadow:0 0 0 0 rgba(83,252,24,0.7)}
-  70%{box-shadow:0 0 0 12px rgba(83,252,24,0)}
+  70%{box-shadow:0 0 0 10px rgba(83,252,24,0)}
   100%{box-shadow:0 0 0 0 rgba(83,252,24,0)}
 }
 
 .live-badge{
   background:linear-gradient(180deg,#6aff3a,#53fc18);
   color:#000;
-  font-size:13px;
+  font-size:12px;
   font-weight:900;
-  padding:8px 16px;
+  padding:6px 14px;
   border-radius:20px;
   animation:pulse 1.5s infinite;
-  flex-shrink:0;
-  margin-left:10px;
-  border:1px solid rgba(83,252,24,0.3);
-  box-shadow:0 4px 12px rgba(83,252,24,0.25);
 }
 
 /* PLAYER */
@@ -86,70 +76,72 @@ html,body{
   border:0;
 }
 
-/* VIEW COUNTER - FULLY ABOVE IFRAME */
+/* VIEW COUNTER - CHAT STYLE */
 .view-counter{
   position:absolute;
-  top:-50px; /* Moved above iframe */
-  right:20px;
+  top:12px;
+  right:12px;
   background:transparent;
-  padding:10px 14px;
-  font-size:13px;
+  border:1px solid var(--border);
+  padding:8px 14px;
+  border-radius:12px;
+  font-size:12px;
   color:#fff;
   font-weight:900;
   text-align:right;
   z-index:10;
   pointer-events:none;
+  box-shadow:0 4px 10px rgba(0,0,0,.4);
 }
 
 .view-counter .name{
-  font-size:14px;
-  color:#fff;
-  font-weight:900;
-  text-shadow:0 2px 10px rgba(0,0,0,1);
-  opacity:1;
+  font-size:11px;
+  color:#53fc18;
+  font-weight:700;
 }
 
 .view-counter .views{
-  font-size:12px;
-  color:rgba(255,255,255,1);
-  font-weight:700;
-  text-shadow:0 2px 10px rgba(0,0,0,1);
-  opacity:1;
+  font-size:14px;
+  font-weight:900;
 }
 
-/* MAIN CONTAINER WITH FLEX */
-.container{
+/* CHAT CONTAINER */
+#chatContainer{
+  width:100%;
+  height:50vh;
+  background:var(--bg);
+  position:relative;
   display:flex;
   flex-direction:column;
-  height:100vh;
 }
 
-/* CHAT SECTION */
-.chat-section{
+/* CHAT APP */
+#app{
   flex:1;
   display:flex;
   flex-direction:column;
-  background:var(--bg);
+  height:100%;
 }
 
 /* CHAT OUTPUT */
 #chat{
   flex:1;
-  padding:12px 16px;
+  padding:12px;
   overflow-y:auto;
-  padding-bottom:70px;
+  padding-bottom:80px;
 }
 
 /* MESSAGE BOX */
 .msg{
-  background:transparent;
-  border:none;
-  border-radius:8px;
-  padding:6px 10px;
-  margin-bottom:8px;
+  background:linear-gradient(180deg,#161616,#101010);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:10px;
   display:flex;
-  gap:6px;
+  gap:8px;
   align-items:flex-start;
+  box-shadow:0 4px 10px rgba(0,0,0,.4);
   animation:fadeIn .25s ease;
 }
 
@@ -159,35 +151,30 @@ html,body{
 }
 
 .avatar{
-  color:rgba(255,255,255,0.5);
-  font-size:18px;
-  margin-top:1px;
+  color:#53fc18;
+  font-size:20px;
+  margin-top:2px;
 }
 
 .name{
-  font-weight:700;
+  font-weight:900;
   white-space:nowrap;
-  opacity:0.6;
-  font-size:13px;
 }
 
 .text{
   flex:1;
   word-break:break-word;
-  color:rgba(255,255,255,0.9);
-  font-weight:600;
-  font-size:14px;
 }
 
 .time{
-  font-size:10px;
-  color:rgba(255,255,255,0.4);
+  font-size:12px;
+  color:#53fc18;
   white-space:nowrap;
-  font-weight:600;
+  font-weight:700;
 }
 
 .emoji{
-  height:18px;
+  height:22px;
   vertical-align:middle;
 }
 
@@ -197,7 +184,7 @@ html,body{
   position:absolute;
   left:0;
   right:0;
-  bottom:70px;
+  bottom:64px;
   background:var(--panel);
   border-top:1px solid var(--border);
   display:none;
@@ -207,15 +194,15 @@ html,body{
 
 /* EMOJI PANEL */
 #emojiPanel{
-  height:200px;
+  height:220px;
   padding:8px;
-  grid-template-columns:repeat(auto-fill,34px);
-  gap:6px;
+  grid-template-columns:repeat(auto-fill,36px);
+  gap:8px;
   overflow-y:auto;
 }
 #emojiPanel.open{display:grid}
 #emojiPanel img{
-  height:30px;
+  height:32px;
   cursor:pointer;
   transition:transform .2s;
 }
@@ -227,23 +214,23 @@ html,body{
 #namePicker{
   padding:10px;
   z-index:25;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:8px;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
 }
 .name-box{
   background:linear-gradient(180deg,#161616,#101010);
   border:1px solid var(--border);
-  padding:10px;
+  padding:12px;
   text-align:center;
-  font-weight:800;
-  border-radius:8px;
+  font-weight:900;
+  border-radius:10px;
   cursor:pointer;
-  color:rgba(255,255,255,0.8);
+  color:#fff;
   transition:all .2s;
 }
 .name-box:hover{
   border-color:#53fc18;
-  box-shadow:0 0 12px rgba(83,252,24,.2);
+  box-shadow:0 0 15px rgba(83,252,24,.3);
 }
 .name-box.active{
   background:linear-gradient(180deg,#6aff3a,#53fc18);
@@ -252,63 +239,61 @@ html,body{
   box-shadow:0 4px 10px rgba(83,252,24,.35);
 }
 
-/* INPUT BAR - MOVED TO VERY BOTTOM */
-.input-container{
-  position:fixed;
+/* INPUT BAR */
+.bar{
+  position:absolute;
   bottom:0;
   left:0;
   right:0;
-  height:70px;
-  background:linear-gradient(180deg,#0f0f0f,#0a0a0a);
+  height:64px;
+  background:#0f0f0f;
   border-top:1px solid var(--border);
-  padding:10px 16px;
+  padding:8px;
   z-index:30;
-  box-shadow:0 -4px 12px rgba(0,0,0,0.3);
 }
 
-.input-row{
+.row{
   display:flex;
   align-items:center;
   gap:8px;
-  height:100%;
 }
 
 .icon{
-  color:#53fc18;
+  color:#aaa;
   cursor:pointer;
-  font-size:22px;
-  opacity:0.8;
+  font-size:24px;
 }
 .icon:hover{
-  opacity:1;
+  color:var(--kick-green);
   transform:scale(1.1);
 }
 
 /* INPUT BOX */
 #editor{
   flex:1;
-  height:48px;
-  padding:12px 16px;
+  min-height:42px;
+  max-height:120px;
+  padding:10px 14px;
   background:linear-gradient(180deg,#1c1c1c,#141414);
   color:#fff;
-  font-weight:800;
-  font-size:15px;
+  font-weight:900;
+  font-size:14px;
   border-radius:12px;
   border:1px solid var(--border);
   outline:none;
   overflow-y:auto;
   transition:.25s;
-  line-height:1.4;
 }
 
 #editor:empty:before{
   content:"Type a message…";
-  color:rgba(83,252,24,0.7);
+  color:#53fc18;
+  opacity:.7;
 }
 
 #editor:focus{
   border-color:var(--kick-green);
-  box-shadow:0 0 0 2px rgba(83,252,24,0.2);
+  box-shadow:0 0 0 2px rgba(83,252,24,.3);
 }
 
 /* SEND BUTTON */
@@ -316,41 +301,30 @@ button.send{
   background:linear-gradient(180deg,#6aff3a,#53fc18);
   color:#000;
   border:none;
-  padding:12px 20px;
+  padding:10px 18px;
   border-radius:12px;
   font-weight:900;
   cursor:pointer;
-  box-shadow:0 4px 10px rgba(83,252,24,.3);
+  box-shadow:0 4px 10px rgba(83,252,24,.35);
   transition:all .2s;
   font-size:16px;
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 button.send:hover{
   transform:scale(1.05);
-  box-shadow:0 6px 15px rgba(83,252,24,.4);
+  box-shadow:0 6px 15px rgba(83,252,24,.5);
 }
 button.send:active{
   transform:scale(.95);
 }
-
-/* ROTATING USERNAME COLORS - REDUCED OPACITY */
-.color-0 { color: rgba(255, 100, 100, 0.4); }
-.color-1 { color: rgba(100, 255, 100, 0.4); }
-.color-2 { color: rgba(100, 200, 255, 0.4); }
-.color-3 { color: rgba(255, 200, 100, 0.4); }
-.color-4 { color: rgba(200, 100, 255, 0.4); }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div id="stream-content"></div>
-  
-  <div class="chat-section">
+<div id="stream-content"></div>
+
+<div id="chatContainer">
+  <div id="app">
     <div id="chat"></div>
     <div id="emojiPanel"></div>
     <div id="namePicker">
@@ -361,15 +335,14 @@ button.send:active{
       <div class="name-box" onclick="setName(this,'Bhadwa')">Bhadwa</div>
       <div class="name-box" onclick="setName(this,'Gautam Gambhir')">Gautam Gambhir</div>
     </div>
-  </div>
-</div>
-
-<div class="input-container">
-  <div class="input-row">
-    <span class="material-icons icon" onclick="toggleName()">person</span>
-    <span class="material-icons icon" onclick="toggleEmoji()">emoji_emotions</span>
-    <div id="editor" contenteditable="true"></div>
-    <button class="send" onclick="send()">➤</button>
+    <div class="bar">
+      <div class="row">
+        <span class="material-icons icon" onclick="toggleName()">person</span>
+        <span class="material-icons icon" onclick="toggleEmoji()">emoji_emotions</span>
+        <div id="editor" contenteditable="true"></div>
+        <button class="send" onclick="send()">➤</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -458,7 +431,8 @@ const emojiPanel = document.getElementById("emojiPanel");
 const namePicker = document.getElementById("namePicker");
 
 let username = localStorage.getItem("chat_name") || "";
-let messageCount = 0;
+const colors = ["#53fc18", "#6aff3a", "#89ff65", "#a8ff8c", "#c7ffb3"];
+let colorIndex = 0;
 
 document.querySelectorAll(".name-box").forEach(b => {
   if(b.innerText === username) b.classList.add("active");
@@ -487,14 +461,11 @@ function timeNow(){
 }
 
 socket.on("receive_message", d => {
-  messageCount++;
-  const colorClass = `color-${(messageCount - 1) % 5}`;
-  
   const div = document.createElement("div");
   div.className = "msg";
   div.innerHTML = `
     <span class="material-icons avatar">person</span>
-    <span class="name ${colorClass}">${d.sender}</span>
+    <span class="name" style="color:${d.color}">${d.sender}</span>
     <span class="text">${d.message}</span>
     <span class="time">${d.time}</span>`;
   chat.appendChild(div);
@@ -503,13 +474,9 @@ socket.on("receive_message", d => {
 
 function send(){
   if(!editor.innerHTML.trim()) return;
-  
-  messageCount++;
-  const colorClass = `color-${(messageCount - 1) % 5}`;
-  
   socket.emit("send_message", {
     sender: username || "Anonymous",
-    color: colorClass,
+    color: colors[colorIndex++ % colors.length],
     time: timeNow(),
     message: editor.innerHTML
   });
