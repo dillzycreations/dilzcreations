@@ -42,7 +42,10 @@ html,body{
 .block-header h1{
   font-size:18px;
   font-weight:900;
-  color:var(--kick-green);
+  color:#fff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* PULSE EFFECT FOR LIVE BADGE */
@@ -60,6 +63,8 @@ html,body{
   padding:6px 14px;
   border-radius:20px;
   animation:pulse 1.5s infinite;
+  flex-shrink:0;
+  margin-left:10px;
 }
 
 /* PLAYER */
@@ -76,33 +81,33 @@ html,body{
   border:0;
 }
 
-/* VIEW COUNTER - CHAT STYLE */
+/* VIEW COUNTER - TRANSPARENT BACKGROUND WITH WHITE TEXT */
 .view-counter{
   position:absolute;
   top:12px;
   right:12px;
-  background:linear-gradient(180deg,#161616,#101010);
-  border:1px solid var(--border);
-  padding:8px 14px;
-  border-radius:12px;
+  background:transparent;
+  padding:8px 12px;
   font-size:12px;
   color:#fff;
   font-weight:900;
   text-align:right;
   z-index:10;
   pointer-events:none;
-  box-shadow:0 4px 10px rgba(0,0,0,.4);
 }
 
 .view-counter .name{
-  font-size:11px;
-  color:#53fc18;
-  font-weight:700;
+  font-size:13px;
+  color:#fff;
+  font-weight:900;
+  text-shadow:0 2px 8px rgba(0,0,0,0.9);
 }
 
 .view-counter .views{
-  font-size:14px;
-  font-weight:900;
+  font-size:11px;
+  color:rgba(255,255,255,0.8);
+  font-weight:700;
+  text-shadow:0 2px 8px rgba(0,0,0,0.9);
 }
 
 /* CHAT CONTAINER */
@@ -133,15 +138,14 @@ html,body{
 
 /* MESSAGE BOX */
 .msg{
-  background:linear-gradient(180deg,#161616,#101010);
-  border:1px solid var(--border);
+  background:transparent;
+  border:none;
   border-radius:12px;
-  padding:10px 12px;
+  padding:8px 12px;
   margin-bottom:10px;
   display:flex;
   gap:8px;
   align-items:flex-start;
-  box-shadow:0 4px 10px rgba(0,0,0,.4);
   animation:fadeIn .25s ease;
 }
 
@@ -151,30 +155,35 @@ html,body{
 }
 
 .avatar{
-  color:#53fc18;
+  color:#fff;
   font-size:20px;
   margin-top:2px;
+  opacity:0.8;
 }
 
 .name{
   font-weight:900;
   white-space:nowrap;
+  opacity:0.7;
+  font-size:14px;
 }
 
 .text{
   flex:1;
   word-break:break-word;
+  color:#fff;
+  font-weight:700;
 }
 
 .time{
-  font-size:12px;
-  color:#53fc18;
+  font-size:11px;
+  color:rgba(255,255,255,0.5);
   white-space:nowrap;
   font-weight:700;
 }
 
 .emoji{
-  height:22px;
+  height:20px;
   vertical-align:middle;
 }
 
@@ -259,12 +268,12 @@ html,body{
 }
 
 .icon{
-  color:#aaa;
+  color:#53fc18;
   cursor:pointer;
   font-size:24px;
 }
 .icon:hover{
-  color:var(--kick-green);
+  color:#6aff3a;
   transform:scale(1.1);
 }
 
@@ -316,6 +325,13 @@ button.send:hover{
 button.send:active{
   transform:scale(.95);
 }
+
+/* ROTATING USERNAME COLORS - EVERY 1-5 MESSAGES */
+.color-0 { color: rgba(255, 100, 100, 0.7); } /* Red */
+.color-1 { color: rgba(100, 255, 100, 0.7); } /* Green */
+.color-2 { color: rgba(100, 200, 255, 0.7); } /* Blue */
+.color-3 { color: rgba(255, 200, 100, 0.7); } /* Orange */
+.color-4 { color: rgba(200, 100, 255, 0.7); } /* Purple */
 </style>
 </head>
 
@@ -431,8 +447,7 @@ const emojiPanel = document.getElementById("emojiPanel");
 const namePicker = document.getElementById("namePicker");
 
 let username = localStorage.getItem("chat_name") || "";
-const colors = ["#53fc18", "#6aff3a", "#89ff65", "#a8ff8c", "#c7ffb3"];
-let colorIndex = 0;
+let messageCount = 0;
 
 document.querySelectorAll(".name-box").forEach(b => {
   if(b.innerText === username) b.classList.add("active");
@@ -461,11 +476,14 @@ function timeNow(){
 }
 
 socket.on("receive_message", d => {
+  messageCount++;
+  const colorClass = `color-${(messageCount - 1) % 5}`;
+  
   const div = document.createElement("div");
   div.className = "msg";
   div.innerHTML = `
     <span class="material-icons avatar">person</span>
-    <span class="name" style="color:${d.color}">${d.sender}</span>
+    <span class="name ${colorClass}">${d.sender}</span>
     <span class="text">${d.message}</span>
     <span class="time">${d.time}</span>`;
   chat.appendChild(div);
@@ -474,9 +492,13 @@ socket.on("receive_message", d => {
 
 function send(){
   if(!editor.innerHTML.trim()) return;
+  
+  messageCount++;
+  const colorClass = `color-${(messageCount - 1) % 5}`;
+  
   socket.emit("send_message", {
     sender: username || "Anonymous",
-    color: colors[colorIndex++ % colors.length],
+    color: colorClass,
     time: timeNow(),
     message: editor.innerHTML
   });
