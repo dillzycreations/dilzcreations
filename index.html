@@ -121,7 +121,6 @@ html,body{
   display:flex;
   flex-direction:column;
   height:100%;
-  position:relative;
 }
 
 /* CHAT OUTPUT */
@@ -317,141 +316,10 @@ button.send:hover{
 button.send:active{
   transform:scale(.95);
 }
-
-/* TELEGRAM POPUP STYLES (ADDED WITHOUT CHANGES) */
-#overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.8);
-  backdrop-filter:blur(8px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-
-.popup{
-  width:92%;
-  max-width:380px;
-  background:
-    linear-gradient(180deg,rgba(83,252,24,.04),transparent),
-    var(--card);
-  border-radius:20px;
-  padding:22px;
-  border:2px solid var(--kick-green);
-  box-shadow:
-    0 0 25px var(--kick-glow),
-    inset 0 0 0 1px rgba(255,255,255,.04);
-  animation:popup .35s ease;
-}
-
-@keyframes popup{
-  from{transform:scale(.92);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-.title{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  color:var(--kick-green);
-  font-size:22px;
-  font-weight:800;
-  margin-bottom:12px;
-}
-
-.title .material-icons{
-  font-size:26px;
-}
-
-.text{
-  text-align:center;
-  color:#bdbdbd;
-  font-size:14.5px;
-  line-height:1.6;
-}
-
-.btn{
-  width:100%;
-  border:none;
-  border-radius:14px;
-  padding:15px;
-  margin-top:14px;
-  font-size:16px;
-  font-weight:800;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.join{
-  background:linear-gradient(135deg,#53fc18,#9bff5b);
-  color:#000;
-  box-shadow:0 0 15px var(--kick-glow);
-}
-
-.join:hover{filter:brightness(1.1)}
-.join:active{transform:scale(.97)}
-
-.joined{
-  background:transparent;
-  color:#aaa;
-  border:1.5px solid #2a2a2a;
-}
-
-.footer{
-  margin-top:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  color:#8a8a8a;
-  font-size:13px;
-}
-
-.footer .material-icons{
-  font-size:18px;
-  color:var(--kick-green);
-}
-
-/* Added missing variable */
-:root{
-  --kick-glow:rgba(83,252,24,.45);
-}
 </style>
 </head>
 
 <body>
-
-<!-- TELEGRAM POPUP (ADDED WITHOUT CHANGES) -->
-<div id="overlay">
-  <div class="popup">
-
-    <div class="title">
-      <span class="material-icons">send</span>
-      Support Us!
-    </div>
-
-    <div class="text">
-      Join our Telegram channel <b>DILZ LINKS</b> for instant updates,
-      highlights and exclusive links.
-    </div>
-
-    <button class="btn join" onclick="joinTG()">
-      Join Now
-    </button>
-
-    <button class="btn joined" onclick="closePopup()">
-      Already Joined
-    </button>
-
-    <div class="footer">
-      <span class="material-icons">notifications_active</span>
-      Follow us for updates
-    </div>
-
-  </div>
-</div>
 
 <div id="stream-content"></div>
 
@@ -641,16 +509,6 @@ function insertEmoji(src){
   const r = sel.getRangeAt(0);
   r.insertNode(img);
   r.collapse(false);
-}
-
-// TELEGRAM POPUP FUNCTIONS (ADDED WITHOUT CHANGES)
-function joinTG(){
-  window.open("https://t.me/yourchannel","_blank");
-  closePopup();
-}
-
-function closePopup(){
-  document.getElementById("overlay").style.display="none";
 }
 
 // Initialize everything
