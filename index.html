@@ -563,14 +563,27 @@ async function startViewCounter(data){
     }
   }
 
-function joinTG(){
-  window.open("https://t.me/yourchannel","_blank");
+
+  // TELEGRAM POPUP FUNCTIONS - ADD THESE
+function joinTG() {
+  window.open("https://t.me/yourchannel", "_blank");
   closePopup();
 }
 
-function closePopup(){
-  document.getElementById("overlay").style.display="none";
+function closePopup() {
+  document.getElementById("overlay").style.display = "none";
+  localStorage.setItem("popup_closed", "true");
 }
+
+// Check if popup was already closed
+document.addEventListener("DOMContentLoaded", () => {
+  if (!localStorage.getItem("popup_closed")) {
+    document.getElementById("overlay").style.display = "flex";
+  }
+  
+  initializeApp();
+  loadEmojis();
+});
 
   updateViews();
   setInterval(updateViews, 2000);
