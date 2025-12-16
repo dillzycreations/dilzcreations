@@ -44,7 +44,88 @@ html,body{
   font-weight:900;
   color:var(--kick-green);
 }
+/* =========================
+   TELEGRAM POPUP (KICK GREEN)
+========================= */
+#tgOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(10px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
 
+.tgPopup{
+  width:92%;
+  max-width:380px;
+  background:linear-gradient(180deg,#0f0f0f,#080808);
+  border:2px solid #53fc18;
+  border-radius:18px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(83,252,24,.35);
+  animation:tgPop .35s ease;
+}
+
+@keyframes tgPop{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.tgHeader{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:#53fc18;
+}
+
+.tgHeader h2{
+  margin:0;
+  font-size:22px;
+  font-weight:900;
+}
+
+.tgHeader .material-icons{
+  font-size:30px;
+}
+
+.tgPopup p{
+  font-size:14px;
+  color:#ccc;
+  margin:16px 0 20px;
+  line-height:1.6;
+}
+
+.tgJoin{
+  width:100%;
+  background:linear-gradient(180deg,#6aff3a,#53fc18);
+  color:#000;
+  font-weight:900;
+  border:none;
+  padding:14px;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:16px;
+  box-shadow:0 6px 16px rgba(83,252,24,.45);
+}
+
+.tgJoin:hover{transform:scale(1.05)}
+
+.tgJoined{
+  width:100%;
+  margin-top:10px;
+  background:transparent;
+  border:1px solid #53fc18;
+  color:#53fc18;
+  font-weight:800;
+  padding:12px;
+  border-radius:14px;
+  cursor:pointer;
+}
 /* PULSE EFFECT FOR LIVE BADGE */
 @keyframes pulse{
   0%{box-shadow:0 0 0 0 rgba(83,252,24,0.7)}
@@ -357,7 +438,24 @@ button.send:active{
     </div>
   </div>
 </div>
+<!-- TELEGRAM POPUP OVERLAY -->
+<div id="tgOverlay">
+  <div class="tgPopup">
+    <div class="tgHeader">
+      <span class="material-icons">telegram</span>
+      <h2>Support Us!</h2>
+    </div>
 
+    <p>
+      Join our Telegram channel
+      <b>DILZ LINKS</b><br>
+      for instant updates, highlights & exclusive links.
+    </p>
+
+    <button class="tgJoin" onclick="joinTelegram()">Join Now</button>
+    <button class="tgJoined" onclick="alreadyJoined()">Already Joined</button>
+  </div>
+</div>
 <script>
 // STREAM FUNCTIONS
 async function initializeApp() {
@@ -527,6 +625,33 @@ function insertEmoji(src){
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp();
   loadEmojis();
+});
+  
+/* =========================
+   TELEGRAM POPUP (ALWAYS SHOW)
+========================= */
+const TG_LINK = "https://t.me/DILZ_LINKS"; // 🔴 change if needed
+
+function showTelegramPopup(){
+  document.getElementById("tgOverlay").style.display = "flex";
+}
+
+function joinTelegram(){
+  window.open(TG_LINK, "_blank");
+  closeTelegramPopup();
+}
+
+function alreadyJoined(){
+  closeTelegramPopup();
+}
+
+function closeTelegramPopup(){
+  document.getElementById("tgOverlay").style.display = "none";
+}
+
+/* SHOW ON EVERY VISIT */
+window.addEventListener("load", () => {
+  setTimeout(showTelegramPopup, 1200);
 });
 </script>
 
