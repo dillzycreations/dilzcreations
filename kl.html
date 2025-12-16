@@ -7,6 +7,7 @@
 
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 :root{
@@ -184,7 +185,7 @@ html,body{
   position:absolute;
   left:0;
   right:0;
-  bottom:64px;
+  bottom:76px;
   background:var(--panel);
   border-top:1px solid var(--border);
   display:none;
@@ -316,10 +317,121 @@ button.send:hover{
 button.send:active{
   transform:scale(.95);
 }
+  /* === FIX INPUT BAR POSITION (NO OTHER CHANGES) === */
+.bar{
+  position:fixed !important;
+  bottom:0 !important;
+  left:0 !important;
+  right:0 !important;
+}
+
+/* === ENSURE CHAT DOES NOT GO UNDER INPUT === */
+#chat{
+  padding-bottom:90px !important;
+}
+
+/* === TELEGRAM POPUP === */
+.telegram-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: linear-gradient(180deg, #161616, #101010);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  z-index: 10000;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  display: none;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.telegram-popup h2 { 
+  color: var(--text);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+}
+
+.telegram-popup .fa-telegram { color: #2AABEE; }
+
+.telegram-popup p { 
+  color: #aaa;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.telegram-popup p strong {
+  color: var(--kick-green);
+  font-weight: 900;
+}
+
+.telegram-popup .popup-button {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 0.75rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  border: none;
+}
+
+.telegram-popup .join-btn {
+  background: linear-gradient(180deg, #6aff3a, #53fc18);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(83, 252, 24, 0.35);
+  border: none;
+}
+
+.telegram-popup .join-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(83, 252, 24, 0.5);
+}
+
+.telegram-popup .joined-btn {
+  background: transparent;
+  color: #aaa;
+  border: 1px solid var(--border);
+}
+
+.telegram-popup .joined-btn:hover {
+  background: rgba(83, 252, 24, 0.1);
+  color: var(--kick-green);
+  border-color: var(--kick-green);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .telegram-popup { padding: 2rem 1.5rem; }
+}
 </style>
 </head>
 
 <body>
+
+<div class="telegram-popup" id="telegramPopup">
+  <h2 id="popup-title"><i class="fa-brands fa-telegram"></i> Join The Action</h2>
+  <p>Get instant <strong>Ajayxl!ve</strong>, match highlights, and exclusive cricket updates on our official channel.</p>
+  <a href="https://t.me/+6H0lhRBbr702OTY1" target="_blank" rel="noopener noreferrer" class="popup-button join-btn">Join Channel Now</a>
+  <button class="popup-button joined-btn" onclick="document.getElementById('telegramPopup').style.display='none';">I've Already Joined</button>
+</div>
 
 <div id="stream-content"></div>
 
@@ -515,8 +627,14 @@ function insertEmoji(src){
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp();
   loadEmojis();
+  
+  // Show Telegram popup after 1.6 seconds
+  setTimeout(() => {
+    document.getElementById('telegramPopup').style.display = 'block';
+  }, 1600);
 });
 </script>
 
 </body>
 </html>
+
