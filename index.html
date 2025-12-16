@@ -7,6 +7,7 @@
 
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 :root{
@@ -44,88 +45,7 @@ html,body{
   font-weight:900;
   color:var(--kick-green);
 }
-/* =========================
-   TELEGRAM POPUP (KICK GREEN)
-========================= */
-#tgOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.82);
-  backdrop-filter:blur(10px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:99999;
-}
 
-.tgPopup{
-  width:92%;
-  max-width:380px;
-  background:linear-gradient(180deg,#0f0f0f,#080808);
-  border:2px solid #53fc18;
-  border-radius:18px;
-  padding:22px;
-  text-align:center;
-  box-shadow:0 0 30px rgba(83,252,24,.35);
-  animation:tgPop .35s ease;
-}
-
-@keyframes tgPop{
-  from{transform:scale(.9);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-.tgHeader{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  color:#53fc18;
-}
-
-.tgHeader h2{
-  margin:0;
-  font-size:22px;
-  font-weight:900;
-}
-
-.tgHeader .material-icons{
-  font-size:30px;
-}
-
-.tgPopup p{
-  font-size:14px;
-  color:#ccc;
-  margin:16px 0 20px;
-  line-height:1.6;
-}
-
-.tgJoin{
-  width:100%;
-  background:linear-gradient(180deg,#6aff3a,#53fc18);
-  color:#000;
-  font-weight:900;
-  border:none;
-  padding:14px;
-  border-radius:14px;
-  cursor:pointer;
-  font-size:16px;
-  box-shadow:0 6px 16px rgba(83,252,24,.45);
-}
-
-.tgJoin:hover{transform:scale(1.05)}
-
-.tgJoined{
-  width:100%;
-  margin-top:10px;
-  background:transparent;
-  border:1px solid #53fc18;
-  color:#53fc18;
-  font-weight:800;
-  padding:12px;
-  border-radius:14px;
-  cursor:pointer;
-}
 /* PULSE EFFECT FOR LIVE BADGE */
 @keyframes pulse{
   0%{box-shadow:0 0 0 0 rgba(83,252,24,0.7)}
@@ -409,10 +329,109 @@ button.send:active{
 #chat{
   padding-bottom:90px !important;
 }
+
+/* === TELEGRAM POPUP === */
+.telegram-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: linear-gradient(180deg, #161616, #101010);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  z-index: 10000;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  display: none;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.telegram-popup h2 { 
+  color: var(--text);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+}
+
+.telegram-popup .fa-telegram { color: #2AABEE; }
+
+.telegram-popup p { 
+  color: #aaa;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.telegram-popup p strong {
+  color: var(--kick-green);
+  font-weight: 900;
+}
+
+.telegram-popup .popup-button {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 0.75rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  border: none;
+}
+
+.telegram-popup .join-btn {
+  background: linear-gradient(180deg, #6aff3a, #53fc18);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(83, 252, 24, 0.35);
+  border: none;
+}
+
+.telegram-popup .join-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(83, 252, 24, 0.5);
+}
+
+.telegram-popup .joined-btn {
+  background: transparent;
+  color: #aaa;
+  border: 1px solid var(--border);
+}
+
+.telegram-popup .joined-btn:hover {
+  background: rgba(83, 252, 24, 0.1);
+  color: var(--kick-green);
+  border-color: var(--kick-green);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .telegram-popup { padding: 2rem 1.5rem; }
+}
 </style>
 </head>
 
 <body>
+
+<div class="telegram-popup" id="telegramPopup">
+  <h2 id="popup-title"><i class="fa-brands fa-telegram"></i> Join The Action</h2>
+  <p>Get instant <strong>Ajayxl!ve</strong>, match highlights, and exclusive cricket updates on our official channel.</p>
+  <a href="https://t.me/+6H0lhRBbr702OTY1" target="_blank" rel="noopener noreferrer" class="popup-button join-btn">Join Channel Now</a>
+  <button class="popup-button joined-btn" onclick="document.getElementById('telegramPopup').style.display='none';">I've Already Joined</button>
+</div>
 
 <div id="stream-content"></div>
 
@@ -438,24 +457,7 @@ button.send:active{
     </div>
   </div>
 </div>
-<!-- TELEGRAM POPUP OVERLAY -->
-<div id="tgOverlay">
-  <div class="tgPopup">
-    <div class="tgHeader">
-      <span class="material-icons">telegram</span>
-      <h2>Support Us!</h2>
-    </div>
 
-    <p>
-      Join our Telegram channel
-      <b>DILZ LINKS</b><br>
-      for instant updates, highlights & exclusive links.
-    </p>
-
-    <button class="tgJoin" onclick="joinTelegram()">Join Now</button>
-    <button class="tgJoined" onclick="alreadyJoined()">Already Joined</button>
-  </div>
-</div>
 <script>
 // STREAM FUNCTIONS
 async function initializeApp() {
@@ -625,35 +627,14 @@ function insertEmoji(src){
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp();
   loadEmojis();
-});
   
-/* =========================
-   TELEGRAM POPUP (ALWAYS SHOW)
-========================= */
-const TG_LINK = "https://t.me/+iDoGFycsxAZlYmFl"; // 🔴 change if needed
-
-function showTelegramPopup(){
-  document.getElementById("tgOverlay").style.display = "flex";
-}
-
-function joinTelegram(){
-  window.open(TG_LINK, "_blank");
-  closeTelegramPopup();
-}
-
-function alreadyJoined(){
-  closeTelegramPopup();
-}
-
-function closeTelegramPopup(){
-  document.getElementById("tgOverlay").style.display = "none";
-}
-
-/* SHOW ON EVERY VISIT */
-window.addEventListener("load", () => {
-  setTimeout(showTelegramPopup, 1200);
+  // Show Telegram popup after 1.6 seconds
+  setTimeout(() => {
+    document.getElementById('telegramPopup').style.display = 'block';
+  }, 1600);
 });
 </script>
 
 </body>
 </html>
+
